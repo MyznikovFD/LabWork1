@@ -5,7 +5,16 @@
 
 int main()
 {
-    BMP bmp("source.bmp");
-    bmp.write("source_copy.bmp");
-
+     
+    {
+        BMP bmp("source.bmp");
+        bmp.clockwiseRotate();
+        bmp.write("RotatedClockwise.bmp");
+    }
+     
+    {
+        BMP bmp("source.bmp");
+        bmp.CounterClockwiseRotate();
+        bmp.write("RotatedCounterClockwise.bmp");
+    }
 };

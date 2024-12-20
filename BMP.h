@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <vector>
-#include <stdexcept>
 #include <iostream>
 #include <string>
 
@@ -47,6 +46,9 @@ struct BMP {
     BMPInfoHeader bmp_info_header;
     BMPColorHeader bmp_color_header;
     std::vector<uint8_t> data;
+
+    void clockwiseRotate();
+    void CounterClockwiseRotate();
 
     BMP(const char *fname) {
         read(fname);
