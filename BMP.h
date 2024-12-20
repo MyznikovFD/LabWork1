@@ -1,3 +1,6 @@
+#ifndef BMP_H
+#define BMP_H
+
 #include <fstream>
 #include <vector>
 #include <stdexcept>
@@ -51,3 +54,5 @@ struct BMP
     
     BMP(int32_t width, int32_t height, bool has_alpha = true);
 };
+
+#endif
