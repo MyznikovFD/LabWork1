@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <cmath>
+
 
 #pragma pack(push, 1)
 struct BMPFileHeader {
@@ -49,6 +51,9 @@ struct BMP {
 
     void clockwiseRotate();
     void CounterClockwiseRotate();
+
+    void GaussFiltr(float sigma, float kernelSize);
+
 
     BMP(const char *fname) {
         read(fname);

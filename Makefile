@@ -6,7 +6,7 @@ CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 
 DEPS=$(wildcard *.h)
 
-OBJ = Rotate.o
+OBJ = Rotate.o GaussFiltr.o
 
 .PHONY: default
 

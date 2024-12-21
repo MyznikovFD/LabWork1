@@ -17,4 +17,14 @@ int main()
         bmp.CounterClockwiseRotate();
         bmp.write("RotatedCounterClockwise.bmp");
     }
+
+    {
+        BMP bmp("source.bmp");
+        bmp.clockwiseRotate();
+        bmp.GaussFiltr(1, 9);
+        bmp.write("GFiltr.bmp");
+        
+    }
+
+
 };
