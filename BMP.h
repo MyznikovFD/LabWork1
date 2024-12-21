@@ -52,7 +52,7 @@ struct BMP {
     void clockwiseRotate();
     void CounterClockwiseRotate();
 
-    void GaussFiltr(float sigma, float kernelSize);
+    void GaussFiltr(float kernelSize);
 
 
     BMP(const char *fname) {
@@ -68,7 +68,6 @@ struct BMP {
             }
             inp.read((char*)&bmp_info_header, sizeof(bmp_info_header));
 
-            // The BMPColorHeader is used only for transparent images
             if(bmp_info_header.bit_count == 32) {
                 // Check if the file has bit mask color information
                 if(bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader))) {
@@ -81,11 +80,10 @@ struct BMP {
                 }
             }
 
-            // Jump to the pixel data location
+            //pixel data location
             inp.seekg(file_header.offset_data, inp.beg);
 
             // Adjust the header fields for output.
-            // Some editors will put extra info in the image file, we only save the headers and the data.
             if(bmp_info_header.bit_count == 32) {
                 bmp_info_header.size = sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
                 file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);

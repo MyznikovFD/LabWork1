@@ -19,9 +19,12 @@ int main()
     }
 
     {
+    
         BMP bmp("source.bmp");
         bmp.clockwiseRotate();
-        bmp.GaussFiltr(1, 9);
+        //parametr must not be odd
+        //if its nessecary to make blur stronger, you may make perameter bigger
+        bmp.GaussFiltr(8);
         bmp.write("GFiltr.bmp");
         
     }

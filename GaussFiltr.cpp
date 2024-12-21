@@ -6,8 +6,11 @@
 #include <string>
 #include <cmath>
 
-void BMP::GaussFiltr(float sigma, float kernelSize)
+void BMP::GaussFiltr(float kernelSize)
 {
+    float sigma = (bmp_info_header.width + bmp_info_header.height - 2 * kernelSize)/4;
+    
+    
     std::vector<std::vector<float>> ratio(kernelSize, std::vector<float>(kernelSize));
     double sum = 0.0;
     

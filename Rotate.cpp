@@ -21,8 +21,8 @@ void BMP::clockwiseRotate()
 
             
             int new_x, new_y;
-            new_x = new_width - 1 - y;
-            new_y = x;
+            new_x = y;
+            new_y = new_height - 1 - x;
             
             
             int new_index = (new_y * new_width + new_x) * 3;
@@ -51,10 +51,10 @@ void BMP::CounterClockwiseRotate()
         {
             int old_index = (y * bmp_info_header.width + x) * 3;
 
-            
+
             int new_x, new_y;
-            new_x = y;
-            new_y = new_height - 1 - x;
+            new_x = new_width - 1 - y;
+            new_y = x;
             
             
             int new_index = (new_y * new_width + new_x) * 3;
