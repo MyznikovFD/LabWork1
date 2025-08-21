@@ -5,9 +5,12 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <chrono>
 
 void BMP::GaussFiltr(float kernelSize)
 {
+    auto start = std::chrono::high_resolution_clock::now();
+    
     float sigma = (bmp_info_header.width + bmp_info_header.height - 2 * kernelSize)/4;
     
     std::vector<std::vector<float>> ratio(kernelSize, std::vector<float>(kernelSize));
@@ -61,4 +64,8 @@ void BMP::GaussFiltr(float kernelSize)
     }
 
     data.swap(new_data);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Gaussian filter time: " << duration.count() << " ms" << std::endl;
 }
