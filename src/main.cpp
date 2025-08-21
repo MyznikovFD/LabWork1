@@ -19,7 +19,7 @@ int main() {
 
     {
         BMP bmp((base_path + "RotatedClockwise.bmp").c_str());
-        bmp.GaussFiltr(39);  // Используйте нечетный размер ядра
+        bmp.GaussFiltr(25);  // Используйте нечетный размер ядра
         bmp.write((base_path + "GFiltr.bmp").c_str());
     }
 
