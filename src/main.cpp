@@ -2,32 +2,26 @@
 #include <string>
 #include "BMP.h"
 
-
-int main()
-{
-     
-    {
-        BMP bmp("source.bmp");
-        bmp.clockwiseRotate();
-        bmp.write("RotatedClockwise.bmp");
-    }
-     
-    {
-        BMP bmp("source.bmp");
-        bmp.CounterClockwiseRotate();
-        bmp.write("RotatedCounterClockwise.bmp");
-    }
-
-    {
+int main() {
+    const std::string base_path = "images/";
     
-        BMP bmp("source.bmp");
+    {
+        BMP bmp((base_path + "source.bmp").c_str());
         bmp.clockwiseRotate();
-        //parametr must be odd
-        //if its nessecary to make blur stronger, you may make perameter bigger
-        bmp.GaussFiltr(39);
-        bmp.write("GFiltr.bmp");
-        
+        bmp.write((base_path + "RotatedClockwise.bmp").c_str());
+    }
+    
+    {
+        BMP bmp((base_path + "source.bmp").c_str());
+        bmp.CounterClockwiseRotate();
+        bmp.write((base_path + "RotatedCounterClockwise.bmp").c_str());
     }
 
+    {
+        BMP bmp((base_path + "RotatedClockwise.bmp").c_str());
+        bmp.GaussFiltr(39);  // Используйте нечетный размер ядра
+        bmp.write((base_path + "GFiltr.bmp").c_str());
+    }
 
-};
+    return 0;
+}

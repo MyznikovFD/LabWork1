@@ -17,4 +17,4 @@ make
 
 ./editBMP
 ## Clean
-make clean (do not deletes bmp-files)
+make clean
