@@ -1,27 +1,30 @@
 PROJECT = editBMP
-
 CXX = g++
+CXXFLAGS = -Isrc -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 
-CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
+SRC_DIR = src
+IMAGES_DIR = images
 
-DEPS=$(wildcard *.h)
+DEPS = $(wildcard $(SRC_DIR)/*.h)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, %.o, $(SRCS))
 
-OBJ = Rotate.o GaussFiltr.o
+.PHONY: default all clean
 
-.PHONY: default
+default: all
 
-default: all;
+all: $(PROJECT) images
 
-%.o: %.cpp $(DEPS)
+images:
+	mkdir -p $(IMAGES_DIR)
+
+%.o: $(SRC_DIR)/%.cpp $(DEPS)
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
-$(PROJECT): main.o $(OBJ)
+$(PROJECT): $(OBJS)
 	$(CXX) -o $@ $^ $(CXXFLAGS)
-
-all: $(PROJECT)
-
-.PHONY: clean
 
 clean:
 	rm -f *.o
 	rm -f $(PROJECT)
+	find $(IMAGES_DIR) -type f ! -name 'source.bmp' -delete
