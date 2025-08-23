@@ -5,28 +5,28 @@
 #include <vector>
 #include <string>
 #include <chrono>
-
+#include <omp.h>
 
 void BMP::clockwiseRotate()
 {
     auto start = std::chrono::high_resolution_clock::now();
-
+    
     int new_width = bmp_info_header.height;
     int new_height = bmp_info_header.width;
     
     std::vector<uint8_t> new_data(new_width * new_height * 3);
 
+    // Параллелизация вращения
+    #pragma omp parallel for
     for (int y = 0; y < bmp_info_header.height; ++y)
     {
         for (int x = 0; x < bmp_info_header.width; ++x)
         {
             int old_index = (y * bmp_info_header.width + x) * 3;
 
-            
             int new_x, new_y;
             new_x = y;
             new_y = new_height - 1 - x;
-            
             
             int new_index = (new_y * new_width + new_x) * 3;
 
@@ -39,7 +39,7 @@ void BMP::clockwiseRotate()
     bmp_info_header.width = new_width;
     bmp_info_header.height = new_height;
     data.swap(new_data);
-
+    
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Clockwise rotation time: " << duration.count() << " ms" << std::endl;
@@ -48,23 +48,23 @@ void BMP::clockwiseRotate()
 void BMP::CounterClockwiseRotate()
 {
     auto start = std::chrono::high_resolution_clock::now();
-
+    
     int new_width = bmp_info_header.height;
     int new_height = bmp_info_header.width;
     
     std::vector<uint8_t> new_data(new_width * new_height * 3);
 
+    // Параллелизация вращения
+    #pragma omp parallel for
     for (int y = 0; y < bmp_info_header.height; ++y)
     {
         for (int x = 0; x < bmp_info_header.width; ++x)
         {
             int old_index = (y * bmp_info_header.width + x) * 3;
 
-
             int new_x, new_y;
             new_x = new_width - 1 - y;
             new_y = x;
-            
             
             int new_index = (new_y * new_width + new_x) * 3;
 
@@ -77,7 +77,7 @@ void BMP::CounterClockwiseRotate()
     bmp_info_header.width = new_width;
     bmp_info_header.height = new_height;
     data.swap(new_data);
-
+    
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Counter-clockwise rotation time: " << duration.count() << " ms" << std::endl;
