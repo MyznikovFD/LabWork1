@@ -1,6 +1,6 @@
 PROJECT = editBMP
 CXX = g++
-CXXFLAGS = -Isrc -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
+CXXFLAGS = -Isrc -std=c++17 -Wall -fopenmp
 
 SRC_DIR = src
 IMAGES_DIR = images
@@ -13,9 +13,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.cpp, %.o, $(SRCS))
 
 default: all
 
-all: $(PROJECT) images
-
-images:
+all: $(PROJECT)
 	mkdir -p $(IMAGES_DIR)
 
 %.o: $(SRC_DIR)/%.cpp $(DEPS)
@@ -23,7 +21,7 @@ images:
 
 $(PROJECT): $(OBJS)
 	$(CXX) -o $@ $^ $(CXXFLAGS)
-
+	
 clean:
 	rm -f *.o
 	rm -f $(PROJECT)

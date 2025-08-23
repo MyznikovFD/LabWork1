@@ -7,6 +7,9 @@
 #include <cmath>
 #include <chrono>
 
+#include <omp.h>
+
+
 void BMP::GaussFiltr(int kernelSize)
 {
     auto start = std::chrono::high_resolution_clock::now();
@@ -16,6 +19,7 @@ void BMP::GaussFiltr(int kernelSize)
     std::vector<std::vector<float>> ratio(kernelSize, std::vector<float>(kernelSize));
     double sum = 0.0;
     
+    // Вычисление ядра фильтра (последовательно)
     for (int x = 0; x < kernelSize; x++)
     {
         for (int y = 0; y < kernelSize; y++)
@@ -28,6 +32,8 @@ void BMP::GaussFiltr(int kernelSize)
             sum += GaussFun;
         }
     }
+    
+    // Нормализация ядра
     for (int x = 0; x < kernelSize; x++)
     {
         for (int y = 0; y < kernelSize; y++)
@@ -35,18 +41,20 @@ void BMP::GaussFiltr(int kernelSize)
             ratio[x][y] /= sum;
         }
     }
-    std::vector<uint8_t> new_data(data); // Инициализация копией исходных данных
+    
+    std::vector<uint8_t> new_data(data);
 
-    for (int i = kernelSize / 2; i <= bmp_info_header.width - kernelSize / 2; i++)
+    // Параллелизация применения фильтра
+    #pragma omp parallel for
+    for (int j = kernelSize / 2; j <= bmp_info_header.height - kernelSize / 2; j++)
     {
-        for (int j = kernelSize / 2; j <= bmp_info_header.height - kernelSize / 2; j++)
+        for (int i = kernelSize / 2; i <= bmp_info_header.width - kernelSize / 2; i++)
         {
             float blueSum = 0, greenSum = 0, redSum = 0;
             for (int k = 0; k < kernelSize; k++)
             {
                 for (int l = 0; l < kernelSize; l++)
                 {
-                    // Исправление индексации: k - вертикаль, l - горизонталь
                     int x_index = i + l - kernelSize / 2;
                     int y_index = j + k - kernelSize / 2;
                     int pixelIndex = (y_index * bmp_info_header.width + x_index) * 3;
@@ -64,7 +72,6 @@ void BMP::GaussFiltr(int kernelSize)
     }
 
     data.swap(new_data);
-
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Gaussian filter time: " << duration.count() << " ms" << std::endl;
