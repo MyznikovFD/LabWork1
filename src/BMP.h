@@ -52,7 +52,7 @@ struct BMP {
     void clockwiseRotate();
     void CounterClockwiseRotate();
 
-    void GaussFiltr(float kernelSize);
+    void GaussFiltr(int kernelSize);
 
 
     BMP(const char *fname) {
