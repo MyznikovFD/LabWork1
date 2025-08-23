@@ -6,7 +6,9 @@
 #include <string>
 #include <cmath>
 #include <chrono>
+
 #include <omp.h>
+
 
 void BMP::GaussFiltr(int kernelSize)
 {
@@ -70,7 +72,6 @@ void BMP::GaussFiltr(int kernelSize)
     }
 
     data.swap(new_data);
-    
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Gaussian filter time: " << duration.count() << " ms" << std::endl;

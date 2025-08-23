@@ -5,12 +5,14 @@
 #include <vector>
 #include <string>
 #include <chrono>
+
 #include <omp.h>
+
 
 void BMP::clockwiseRotate()
 {
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     int new_width = bmp_info_header.height;
     int new_height = bmp_info_header.width;
     
@@ -39,7 +41,7 @@ void BMP::clockwiseRotate()
     bmp_info_header.width = new_width;
     bmp_info_header.height = new_height;
     data.swap(new_data);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Clockwise rotation time: " << duration.count() << " ms" << std::endl;
@@ -48,7 +50,7 @@ void BMP::clockwiseRotate()
 void BMP::CounterClockwiseRotate()
 {
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     int new_width = bmp_info_header.height;
     int new_height = bmp_info_header.width;
     
@@ -77,7 +79,7 @@ void BMP::CounterClockwiseRotate()
     bmp_info_header.width = new_width;
     bmp_info_header.height = new_height;
     data.swap(new_data);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Counter-clockwise rotation time: " << duration.count() << " ms" << std::endl;
